@@ -4,7 +4,7 @@ import (
 	"apps/investimento/pkg/deliver/rest"
 	"apps/investimento/pkg/repository/psql"
 	"apps/investimento/pkg/usecases"
-	"database/sql"
+	"context"
 	"fmt"
 	"net/http"
 	"time"
@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
+	"github.com/jackc/pgx/v4"
 	_ "github.com/lib/pq"
 )
 
@@ -20,14 +21,14 @@ const (
 )
 
 func main() {
-
-	db, err := sql.Open("postgres", dbconn)
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, dbconn)
 	if err != nil {
-		panic(fmt.Sprintf("main.go - main - open - %s", err.Error()))
+		panic(fmt.Sprintf("main.go - main - connect - %s", err.Error()))
 	}
-	defer db.Close()
+	defer conn.Close(ctx)
 
-	repoNota := psql.NewPsqlNotaRepository(db)
+	repoNota := psql.NewPsqlNotaRepository(conn)
 	usecasesNota := usecases.NewNotaUsecase(repoNota)
 
 	r := chi.NewRouter()

@@ -6,3 +6,10 @@ type Bolsa struct {
 	TaxaAna         float64 `json:"taxa_ana,omitempty"`
 	Emolumentos     float64 `json:"emolumentos,omitempty"`
 }
+
+func (b *Bolsa) IsValid() bool {
+	if b == nil {
+		return false
+	}
+	return true
+}
