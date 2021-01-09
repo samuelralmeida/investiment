@@ -6,6 +6,7 @@ import (
 	"apps/investimento/pkg/usecases"
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -38,5 +39,6 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	rest.NewNotaHandler(r, usecasesNota)
+	log.Print("ListenAndServe port :3000")
 	http.ListenAndServe(":3000", r)
 }
