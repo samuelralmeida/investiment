@@ -5,3 +5,8 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace
+
+### ent ###
+!pkg/ent/
+pkg/ent/*
+!pkg/ent/schema/

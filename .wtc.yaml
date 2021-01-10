@@ -7,7 +7,12 @@ format:
 trig: [run]
 
 rules:
-- name: run
+- name: run-psql
   match: \.(go|env)$
   ignore: _test\.go$
-  command: go run cmd/main.go
+  command: go run cmd/psql/main.go
+
+- name: run-ent
+  match: \.(go|env)$
+  ignore: _test\.go$
+  command: go run cmd/ent/main.go
