@@ -17,11 +17,11 @@ func NewPsqlNotaRepository(conn *pgx.Conn) model.NotaRepository {
 	return &psqlNotaRepository{Conn: conn}
 }
 
-func (p *psqlNotaRepository) Fetch(ctx context.Context) ([]model.Nota, error) {
+func (p *psqlNotaRepository) Fetch(ctx context.Context) ([]*model.Nota, error) {
 	panic("ahhh")
 }
 
-func (p *psqlNotaRepository) GetByID(ctx context.Context, id int) (model.Nota, error) {
+func (p *psqlNotaRepository) GetByID(ctx context.Context, id int) (*model.Nota, error) {
 	panic("ahhh")
 }
 

@@ -1,9 +1,9 @@
 package model
 
 type Cblc struct {
-	ID             int     `json:"id,omitempty"`
-	TaxaLiquidacao float64 `json:"taxa_liquidacao,omitempty"`
-	TaxaRegistro   float64 `json:"taxa_registro,omitempty"`
+	ID             int     `json:"id"`
+	TaxaLiquidacao float64 `json:"taxa_liquidacao"`
+	TaxaRegistro   float64 `json:"taxa_registro"`
 }
 
 func (c *Cblc) IsValid() bool {

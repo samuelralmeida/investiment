@@ -1,14 +1,14 @@
 package model
 
 type Ativo struct {
-	ID          int     `json:"id,omitempty"`
-	Mercado     string  `json:"mercado,omitempty"`
-	CV          string  `json:"c_v,omitempty"`
-	TipoMercado string  `json:"tipo_mercado,omitempty"`
-	Titulo      string  `json:"titulo,omitempty"`
-	Qtde        int     `json:"qtde,omitempty"`
-	Valor       float64 `json:"valor,omitempty"`
-	DC          string  `json:"d_c,omitempty"`
+	ID          int     `json:"id"`
+	Mercado     string  `json:"mercado"`
+	CV          string  `json:"c_v"`
+	TipoMercado string  `json:"tipo_mercado"`
+	Titulo      string  `json:"titulo"`
+	Qtde        int     `json:"qtde"`
+	Valor       float64 `json:"valor"`
+	DC          string  `json:"d_c"`
 }
 
 type Ativos []*Ativo

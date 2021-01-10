@@ -10,3 +10,4 @@
 !pkg/ent/
 pkg/ent/*
 !pkg/ent/schema/
+!pkg/ent/model.go
