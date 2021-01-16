@@ -11,3 +11,7 @@
 pkg/ent/*
 !pkg/ent/schema/
 !pkg/ent/model.go
+
+### binary ###
+app-ent
+app-psql
