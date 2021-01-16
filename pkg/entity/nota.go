@@ -1,6 +1,8 @@
 package entity
 
-import "context"
+import (
+	"context"
+)
 
 type Nota struct {
 	ID        int      `json:"id,omitempty"`

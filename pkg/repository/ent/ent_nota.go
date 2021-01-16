@@ -8,9 +8,9 @@ import (
 	"apps/investimento/pkg/ent/movimentacao"
 	"apps/investimento/pkg/ent/nota"
 	"apps/investimento/pkg/entity"
+	"apps/investimento/pkg/support/errors"
 	"context"
 	"fmt"
-	"log"
 )
 
 type entNotaRepository struct {
@@ -31,7 +31,7 @@ func (e *entNotaRepository) Fetch(ctx context.Context) ([]*entity.Nota, error) {
 		All(ctx)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap("ent:repository:fetch:all", err)
 	}
 
 	resp := make([]*entity.Nota, len(notas))
@@ -39,7 +39,7 @@ func (e *entNotaRepository) Fetch(ctx context.Context) ([]*entity.Nota, error) {
 	for i, nota := range notas {
 		n, err := nota.ToModel()
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrap("ent:repository:fetch:tomodel", err)
 		}
 		resp[i] = n
 	}
@@ -59,15 +59,16 @@ func (e *entNotaRepository) GetByID(ctx context.Context, id int) (*entity.Nota, 
 		Only(ctx)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap("ent:repository:getbyid:only", err)
 	}
 
-	return nota.ToModel()
+	n, err := nota.ToModel()
+	return n, errors.Wrap("ent:repository:getbyid:tomodel", err)
 }
 
 func (e *entNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 
-	if err := WithTx(ctx, e.Client, func(tx *ent.Tx) error {
+	err := WithTx(ctx, e.Client, func(tx *ent.Tx) error {
 		newNota, err := tx.Nota.Create().
 			SetDate(nota.Date).
 			SetReceiptID(nota.ReceiptID).
@@ -75,13 +76,10 @@ func (e *entNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 			Save(ctx)
 
 		if err != nil {
-			log.Printf("ent/ent_nota.go - save - create nota - %s", err.Error())
-			return err
+			return errors.Wrap("ent:repository:save:createnota", err)
 		}
 
 		nota.ID = newNota.ID
-
-		fmt.Println("ativos", nota.Ativos) // DEBUG
 
 		for _, ativo := range nota.Ativos {
 			newAtivo, err := tx.Movimentacao.Create().
@@ -96,8 +94,7 @@ func (e *entNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 				Save(ctx)
 
 			if err != nil {
-				log.Printf("ent/ent_nota.go - save - create ativo - %s", err.Error())
-				return err
+				return errors.Wrap("ent:repository:save:createativo", err)
 			}
 
 			ativo.ID = newAtivo.ID
@@ -110,8 +107,7 @@ func (e *entNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 			Save(ctx)
 
 		if err != nil {
-			log.Printf("ent/ent_nota.go - save - create cblc - %s", err.Error())
-			return err
+			return errors.Wrap("ent:repository:save:createcblc", err)
 		}
 
 		nota.Cblc.ID = newCblc.ID
@@ -124,8 +120,7 @@ func (e *entNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 			Save(ctx)
 
 		if err != nil {
-			log.Printf("ent/ent_nota.go - save - create bolsa - %s", err.Error())
-			return err
+			return errors.Wrap("ent:repository:save:createbolsa", err)
 		}
 
 		nota.Bolsa.ID = newBolsa.ID
@@ -139,55 +134,49 @@ func (e *entNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 			Save(ctx)
 
 		if err != nil {
-			log.Printf("ent/ent_nota.go - save - create despesa - %s", err.Error())
-			return err
+			return errors.Wrap("ent:repository:save:createdespesa", err)
 		}
 
 		nota.Despesa.ID = newDespesa.ID
 
 		return nil
 
-	}); err != nil {
-		log.Printf("ent_nota.go - save - withtx - %s", err.Error())
-		return err
-	}
+	})
 
-	return nil
+	fmt.Println("aaa", err) // DEBUG
 
+	return errors.Wrap("ent:repository:save:withtx", err)
 }
 
 func (e *entNotaRepository) DeleteByID(ctx context.Context, id int) error {
 
-	if err := WithTx(ctx, e.Client, func(tx *ent.Tx) error {
+	err := WithTx(ctx, e.Client, func(tx *ent.Tx) error {
 		var err error
 
 		err = tx.Nota.DeleteOneID(id).Exec(ctx)
 		if err != nil {
-			return err
+			return errors.Wrap("ent:repository:deletebyid:deletenota", err)
 		}
 
 		_, err = tx.Movimentacao.Delete().Where(movimentacao.HasNotaWith(nota.ID(id))).Exec(ctx)
 		if err != nil {
-			return err
+			return errors.Wrap("ent:repository:deletebyid:deletemovimentcao", err)
 		}
 
 		_, err = tx.Cblc.Delete().Where(cblc.HasNotaWith(nota.ID(id))).Exec(ctx)
 		if err != nil {
-			return err
+			return errors.Wrap("ent:repository:deletebyid:deletecblc", err)
 		}
 
 		_, err = tx.Bolsa.Delete().Where(bolsa.HasNotaWith(nota.ID(id))).Exec(ctx)
 		if err != nil {
-			return err
+			return errors.Wrap("ent:repository:deletebyid:deletebolsa", err)
 		}
 
 		_, err = tx.Despesa.Delete().Where(despesa.HasNotaWith(nota.ID(id))).Exec(ctx)
-		return err
+		return errors.Wrap("ent:repository:deletebyid:deletedespesa", err)
 
-	}); err != nil {
-		log.Printf("ent_nota.go - delete - withtx - %s", err.Error())
-		return err
-	}
+	})
 
-	return nil
+	return errors.Wrap("ent:repository:deletebyid:withtx", err)
 }

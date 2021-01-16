@@ -2,8 +2,8 @@ package usecases
 
 import (
 	"apps/investimento/pkg/entity"
+	"apps/investimento/pkg/support/errors"
 	"context"
-	"errors"
 )
 
 type notaUsecase struct {
@@ -26,7 +26,7 @@ func (n *notaUsecase) GetByID(ctx context.Context, id int) (*entity.Nota, error)
 
 func (n *notaUsecase) Save(ctx context.Context, nota *entity.Nota) error {
 	if !nota.IsValid() {
-		return errors.New("nota invalid")
+		return errors.Wrap("usecases:save:nota:valid", errors.ErrInvalidNota)
 	}
 	return n.notaRepository.Save(ctx, nota)
 }
