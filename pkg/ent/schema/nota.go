@@ -26,6 +26,6 @@ func (Nota) Edges() []ent.Edge {
 		edge.To("cblcs", Cblc.Type).Unique(),
 		edge.To("bolsas", Bolsa.Type).Unique(),
 		edge.To("despesas", Despesa.Type).Unique(),
-		edge.To("movimentacoes", Movimentacao.Type),
+		edge.To("movimentacaos", Movimentacao.Type),
 	}
 }

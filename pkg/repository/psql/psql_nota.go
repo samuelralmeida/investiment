@@ -1,7 +1,7 @@
 package psql
 
 import (
-	"apps/investimento/pkg/model"
+	"apps/investimento/pkg/entity"
 	"apps/investimento/pkg/repository/query"
 	"context"
 	"log"
@@ -13,19 +13,19 @@ type psqlNotaRepository struct {
 	Conn *pgx.Conn
 }
 
-func NewPsqlNotaRepository(conn *pgx.Conn) model.NotaRepository {
+func NewPsqlNotaRepository(conn *pgx.Conn) entity.NotaRepository {
 	return &psqlNotaRepository{Conn: conn}
 }
 
-func (p *psqlNotaRepository) Fetch(ctx context.Context) ([]*model.Nota, error) {
+func (p *psqlNotaRepository) Fetch(ctx context.Context) ([]*entity.Nota, error) {
 	panic("ahhh")
 }
 
-func (p *psqlNotaRepository) GetByID(ctx context.Context, id int) (*model.Nota, error) {
+func (p *psqlNotaRepository) GetByID(ctx context.Context, id int) (*entity.Nota, error) {
 	panic("ahhh")
 }
 
-func (p *psqlNotaRepository) Save(ctx context.Context, nota *model.Nota) error {
+func (p *psqlNotaRepository) Save(ctx context.Context, nota *entity.Nota) error {
 	tx, err := p.Conn.Begin(ctx)
 	if err != nil {
 		return err
@@ -51,6 +51,6 @@ func (p *psqlNotaRepository) Save(ctx context.Context, nota *model.Nota) error {
 
 }
 
-func (p *psqlNotaRepository) Delete(ctx context.Context, nota *model.Nota) error {
+func (p *psqlNotaRepository) DeleteByID(ctx context.Context, id int) error {
 	panic("ahhh")
 }

@@ -1,4 +1,4 @@
-package model
+package entity
 
 import "context"
 
@@ -17,14 +17,14 @@ type NotaUsecase interface {
 	Fetch(ctx context.Context) ([]*Nota, error)
 	GetByID(ctx context.Context, id int) (*Nota, error)
 	Save(ctx context.Context, nota *Nota) error
-	Delete(ctx context.Context, nota *Nota) error
+	DeleteByID(ctx context.Context, id int) error
 }
 
 type NotaRepository interface {
 	Fetch(ctx context.Context) ([]*Nota, error)
 	GetByID(ctx context.Context, id int) (*Nota, error)
 	Save(ctx context.Context, nota *Nota) error
-	Delete(ctx context.Context, nota *Nota) error
+	DeleteByID(ctx context.Context, id int) error
 }
 
 func (n *Nota) IsValid() bool {

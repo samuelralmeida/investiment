@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Ativo struct {
 	ID          int     `json:"id"`

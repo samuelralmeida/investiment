@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Cblc struct {
 	ID             int     `json:"id"`

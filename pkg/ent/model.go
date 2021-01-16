@@ -1,9 +1,9 @@
 package ent
 
-import "apps/investimento/pkg/model"
+import "apps/investimento/pkg/entity"
 
-func (n *Nota) ToModel() (*model.Nota, error) {
-	nota := &model.Nota{
+func (n *Nota) ToModel() (*entity.Nota, error) {
+	nota := &entity.Nota{
 		ID:        n.ID,
 		Date:      n.Date,
 		ReceiptID: n.ReceiptID,
@@ -17,7 +17,7 @@ func (n *Nota) ToModel() (*model.Nota, error) {
 
 	for _, ativo := range ativos {
 
-		a := model.Ativo{
+		a := entity.Ativo{
 			ID:          ativo.ID,
 			Mercado:     ativo.Mercado,
 			CV:          ativo.CV,
@@ -36,7 +36,7 @@ func (n *Nota) ToModel() (*model.Nota, error) {
 		return nil, err
 	}
 
-	c := model.Cblc{
+	c := entity.Cblc{
 		ID:             cblc.ID,
 		TaxaLiquidacao: cblc.TaxaLiquidacao,
 		TaxaRegistro:   cblc.TaxaRegistro,
@@ -49,7 +49,7 @@ func (n *Nota) ToModel() (*model.Nota, error) {
 		return nil, err
 	}
 
-	b := model.Bolsa{
+	b := entity.Bolsa{
 		ID:              bolsa.ID,
 		Emolumentos:     bolsa.Emolumentos,
 		TaxaAna:         bolsa.TaxaAna,
@@ -63,7 +63,7 @@ func (n *Nota) ToModel() (*model.Nota, error) {
 		return nil, err
 	}
 
-	d := model.Despesa{
+	d := entity.Despesa{
 		ID:         despesa.ID,
 		Corretagem: despesa.Corretagem,
 		Iss:        despesa.Iss,

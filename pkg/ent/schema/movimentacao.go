@@ -27,6 +27,6 @@ func (Movimentacao) Fields() []ent.Field {
 // Edges of the Movimentacao.
 func (Movimentacao) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("nota", Nota.Type).Ref("movimentacoes").Unique().Required(),
+		edge.From("nota", Nota.Type).Ref("movimentacaos").Unique().Required(),
 	}
 }

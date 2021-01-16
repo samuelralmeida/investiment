@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Bolsa struct {
 	ID              int     `json:"id"`

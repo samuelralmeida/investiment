@@ -1,36 +1,36 @@
 package usecases
 
 import (
-	"apps/investimento/pkg/model"
+	"apps/investimento/pkg/entity"
 	"context"
 	"errors"
 )
 
 type notaUsecase struct {
-	notaRepository model.NotaRepository
+	notaRepository entity.NotaRepository
 }
 
-func NewNotaUsecase(repo model.NotaRepository) model.NotaUsecase {
+func NewNotaUsecase(repo entity.NotaRepository) entity.NotaUsecase {
 	return &notaUsecase{
 		notaRepository: repo,
 	}
 }
 
-func (n *notaUsecase) Fetch(ctx context.Context) ([]*model.Nota, error) {
-	panic("ahhhh")
+func (n *notaUsecase) Fetch(ctx context.Context) ([]*entity.Nota, error) {
+	return n.notaRepository.Fetch(ctx)
 }
 
-func (n *notaUsecase) GetByID(ctx context.Context, id int) (*model.Nota, error) {
+func (n *notaUsecase) GetByID(ctx context.Context, id int) (*entity.Nota, error) {
 	return n.notaRepository.GetByID(ctx, id)
 }
 
-func (n *notaUsecase) Save(ctx context.Context, nota *model.Nota) error {
+func (n *notaUsecase) Save(ctx context.Context, nota *entity.Nota) error {
 	if !nota.IsValid() {
 		return errors.New("nota invalid")
 	}
 	return n.notaRepository.Save(ctx, nota)
 }
 
-func (n *notaUsecase) Delete(ctx context.Context, nota *model.Nota) error {
-	panic("ahhhh")
+func (n *notaUsecase) DeleteByID(ctx context.Context, id int) error {
+	return n.notaRepository.DeleteByID(ctx, id)
 }
